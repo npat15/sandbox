@@ -10,6 +10,7 @@ end
 
 function PlayState:update(dt)
     map:update(dt)
+    self.player:update(dt)
 end
 
 function PlayState:render()

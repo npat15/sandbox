@@ -1,5 +1,7 @@
 Player = Class{}
 
+local WALKING_SPEED = 40
+
 function Player:init(name, U0, V0, U1, V1, charSheet)
     self.name = name
     self.U0 = U0
@@ -53,7 +55,54 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
 
 end
 
-function Player:update()
+function Player:update(dt)
+
+    --[[
+    local PLAYER_KEYS = {
+
+        w = 'walk_up',
+        a = 'walk_left',
+        d = 'walk_right',
+        s = 'walk_down',
+    }
+
+    local BINDINGS = {
+
+        walk_up = function() self.player_obj.y = self.player_obj.y - WALKING_SPEED * dt end,
+        walk_left = function() self.player_obj.x = self.player_obj.x - WALKING_SPEED * dt end,
+        walk_right = function() self.player_obj.x = self.player_obj.x + WALKING_SPEED * dt end,
+        walk_down = function()  self.player_obj.y = self.player_obj.y + WALKING_SPEED * dt end ,
+    }
+
+    function inputHandler(input, k)
+        local action = BINDINGS[input]
+        if action then  
+            while love.keyboard.isDown(k) do
+                action()  
+            end
+        end
+    end
+
+    function love.keypressed(k)
+        local binding = PLAYER_KEYS[k]
+        return inputHandler(binding, k)
+    end
+    --]]
+
+    -- Move player up
+    if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+        self.player_obj.y = self.player_obj.y - WALKING_SPEED * dt
+    -- Move player down
+    elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+        self.player_obj.y = self.player_obj.y + WALKING_SPEED * dt
+    -- Move player left
+    elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+        self.player_obj.x = self.player_obj.x - WALKING_SPEED * dt
+    -- Move player right
+    elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+        self.player_obj.x = self.player_obj.x + WALKING_SPEED * dt
+    end
+    
 end
 
 function Player:render()
