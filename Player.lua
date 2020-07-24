@@ -1,6 +1,7 @@
 Player = Class{}
 
 local WALKING_SPEED = 40
+local ANIMATION_SPEED = 0.1
 
 function Player:init(name, U0, V0, U1, V1, charSheet)
     self.name = name
@@ -114,10 +115,10 @@ function Player:update(dt)
     self.timer = self.timer + dt
 
     -- pick current frame base on elapsed time
-    function frameIndex(animationSpeed)
+    function frameIndex()
         -- should this be local?
         -- could we use modulus instead?
-        frame = math.ceil(self.timer / animationSpeed)
+        frame = math.ceil(self.timer / ANIMATION_SPEED)
 
         if frame > 4 then
             self.timer = 0
@@ -130,19 +131,19 @@ function Player:update(dt)
     -- Move player up
     if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
         self.player_obj.y = self.player_obj.y - WALKING_SPEED * dt
-        self.currentFrame = self.upFrames[frameIndex(0.1)]
+        self.currentFrame = self.upFrames[frameIndex()]
     -- Move player down
     elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
         self.player_obj.y = self.player_obj.y + WALKING_SPEED * dt
-        self.currentFrame = self.downFrames[frameIndex(0.1)]
+        self.currentFrame = self.downFrames[frameIndex()]
     -- Move player left
     elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
         self.player_obj.x = self.player_obj.x - WALKING_SPEED * dt
-        self.currentFrame = self.leftFrames[frameIndex(0.1)]
+        self.currentFrame = self.leftFrames[frameIndex()]
     -- Move player right
     elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
         self.player_obj.x = self.player_obj.x + WALKING_SPEED * dt
-        self.currentFrame = self.rightFrames[frameIndex(0.1)]
+        self.currentFrame = self.rightFrames[frameIndex()]
     end
 end
 
