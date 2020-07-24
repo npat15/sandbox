@@ -6,4 +6,7 @@ end
 
 function PlayState:render()
     map:draw()
+    
+    -- draw sprite
+    love.graphics.draw(sprite, character, 100, 100)
 end

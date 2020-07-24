@@ -36,6 +36,51 @@ function love.load()
     -- build map
     map = sti("map.lua")
 
+    -- SPRITE STUFF
+    local layer = map:addCustomLayer("Sprites", 2)
+
+    local player
+    for k, object in pairs(map.objects) do
+        if object.name == "Player" then
+            player = object
+            break
+        end
+    end
+
+    sprite = love.graphics.newImage("tiles/gfx/character.png")
+    character = love.graphics.newQuad(0, 0, 16, 32, sprite:getWidth(), sprite:getHeight())
+
+    layer.player = {
+        sprite = sprite,
+        x      = player.x,
+        y      = player.y,
+        ox     = sprite:getWidth() / 2,
+        oy     = sprite:getHeight() / 1.35
+    }
+
+    --[[
+    -- Draw player
+    layer.draw = function(self)
+        love.graphics.draw(
+            self.player.sprite,
+            math.floor(self.player.x),
+            math.floor(self.player.y),
+            0,
+            1,
+            1,
+            self.player.ox,
+            self.player.oy
+        )
+
+        -- Temporarily draw a point at our location so we know
+        -- that our sprite is offset properly
+        love.graphics.setPointSize(5)
+        love.graphics.points(math.floor(self.player.x), math.floor(self.player.y))
+    end
+    ]]--
+
+    map:removeLayer("Game Objects")
+
     -- CITE
     love.keyboard.keysPressed = {}
 end
