@@ -9,6 +9,7 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     self.V0 = V0
     self.U1 = U1
     self.V1 = V1
+    self.direction = 1
     --self.layer = spriteLayer
 
     -- find player within object layer
@@ -58,10 +59,6 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     -- start timer
     self.timer = 0
 
-    -- initialize these here so there's no nil error in update
-    future_x = self.player_obj.x
-    future_y = self.player_obj.y
-
     -- start player facing downward
     self.charSheet = love.graphics.newImage(charSheet)
     self.currentFrame = love.graphics.newQuad(U0, V0, U1, V1, self.charSheet:getWidth(), self.charSheet:getHeight())
@@ -82,14 +79,21 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
         return frameTable
     end
 
-    self.downFrames = loadFrames(0)
-    self.rightFrames = loadFrames(FRAME_HEIGHT)
-    self.upFrames = loadFrames(2 * FRAME_HEIGHT)
-    self.leftFrames = loadFrames(3 * FRAME_HEIGHT)
+    -- store all frames in one table for easy access
+    self.frames = {
+        loadFrames(0), 
+        loadFrames(FRAME_HEIGHT), 
+        loadFrames(2 * FRAME_HEIGHT), 
+        loadFrames(3 * FRAME_HEIGHT)
+        }
 end
 
 function Player:update(dt)
     self.timer = self.timer + dt
+
+    -- initialize these here so there's no nil error in update
+    future_x = self.player_obj.x
+    future_y = self.player_obj.y
 
     -- pick current frame base on elapsed time
     function frameIndex()
@@ -106,20 +110,26 @@ function Player:update(dt)
     
     -- Move player up
     if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+        self.direction = 3
         future_y = self.player_obj.y - WALKING_SPEED * dt
-        self.currentFrame = self.upFrames[frameIndex()]
     -- Move player down
     elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
+        self.direction = 1
         future_y = self.player_obj.y + WALKING_SPEED * dt
-        self.currentFrame = self.downFrames[frameIndex()]
     -- Move player left
     elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+        self.direction = 4
         future_x = self.player_obj.x - WALKING_SPEED * dt
-        self.currentFrame = self.leftFrames[frameIndex()]
     -- Move player right
     elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+        self.direction = 2
         future_x = self.player_obj.x + WALKING_SPEED * dt
-        self.currentFrame = self.rightFrames[frameIndex()]
+    end
+
+    if future_x == self.player_obj.x and future_y == self.player_obj.y then
+        self.currentFrame = self.frames[self.direction][1]
+    else
+        self.currentFrame = self.frames[self.direction][frameIndex()]
     end
 
     local actualX, actualY, collisions, len = world:check(self, future_x, future_y)
@@ -137,6 +147,7 @@ function Player:update(dt)
         self.player_obj.y = actualY
         self.x = self.player_obj.x
         self.y = self.player_obj.y
+        self.currentFrame = self.frames[self.direction][1]
         world:move(self, self.x, self.y)
     end
 end
