@@ -125,9 +125,16 @@ function Player:update(dt)
     local actualX, actualY, collisions, len = world:check(self, future_x, future_y)
 
     if len == 0 then
+        -- if no collision, let player move
         self.player_obj.x = future_x
         self.player_obj.y = future_y
-        -- update these to use in world update function
+        self.x = self.player_obj.x
+        self.y = self.player_obj.y
+        world:move(self, self.x, self.y)
+    else
+        -- if there's a collision, keep player in place
+        self.player_obj.x = actualX
+        self.player_obj.y = actualY
         self.x = self.player_obj.x
         self.y = self.player_obj.y
         world:move(self, self.x, self.y)
