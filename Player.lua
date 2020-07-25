@@ -9,7 +9,9 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     self.V0 = V0
     self.U1 = U1
     self.V1 = V1
+    --self.layer = spriteLayer
 
+    -- find player within object layer
     local player_obj
     for k, object in pairs(map.objects) do
         if object.name == self.name then
@@ -19,10 +21,13 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     end
 
     self.player_obj = player_obj
+    --self.player_obj.x = math.floor(self.player_obj.x)
+    --self.player_obj.y = math.floor(self.player_obj.y)
+    self.x = self.player_obj.x
+    self.y = self.player_obj.y
 
     --[[
-
-    layer.player = {
+    self.layer.player = {
         sprite = sprite,
         x      = player.x,
         y      = player.y,
@@ -30,7 +35,6 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
         oy     = sprite:getHeight() / 1.35
     }
 
-    
     -- Draw player
     layer.draw = function(self)
         love.graphics.draw(
@@ -49,10 +53,14 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
         love.graphics.setPointSize(5)
         love.graphics.points(math.floor(self.player.x), math.floor(self.player.y))
     end
-    ]]--
+    --]]
 
     -- start timer
     self.timer = 0
+
+    -- initialize these here so there's no nil error in update
+    future_x = self.player_obj.x
+    future_y = self.player_obj.y
 
     -- start player facing downward
     self.charSheet = love.graphics.newImage(charSheet)
@@ -81,37 +89,6 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
 end
 
 function Player:update(dt)
-
-    --[[ INPUT HANDLER - TRY IMPLEMENTING AGAIN AT SOME POINT
-    local PLAYER_KEYS = {
-
-        w = 'walk_up',
-        a = 'walk_left',
-        d = 'walk_right',
-        s = 'walk_down',
-    }
-
-    local BINDINGS = {
-
-        walk_up = function() self.player_obj.y = self.player_obj.y - WALKING_SPEED * dt end,
-        walk_left = function() self.player_obj.x = self.player_obj.x - WALKING_SPEED * dt end,
-        walk_right = function() self.player_obj.x = self.player_obj.x + WALKING_SPEED * dt end,
-        walk_down = function()  self.player_obj.y = self.player_obj.y + WALKING_SPEED * dt end ,
-    }
-
-    function inputHandler(input, k)
-        local action = BINDINGS[input]
-        if action then  
-            return action()
-        end
-    end
-
-    function love.keypressed(k, isRepeat)
-        local binding = PLAYER_KEYS[k]
-        return inputHandler(binding, k)
-    end
-    --]]
-
     self.timer = self.timer + dt
 
     -- pick current frame base on elapsed time
@@ -119,7 +96,6 @@ function Player:update(dt)
         -- should this be local?
         -- could we use modulus instead?
         frame = math.ceil(self.timer / ANIMATION_SPEED)
-
         if frame > 4 then
             self.timer = 0
             frame = 1
@@ -130,20 +106,31 @@ function Player:update(dt)
     
     -- Move player up
     if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-        self.player_obj.y = self.player_obj.y - WALKING_SPEED * dt
+        future_y = self.player_obj.y - WALKING_SPEED * dt
         self.currentFrame = self.upFrames[frameIndex()]
     -- Move player down
     elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
-        self.player_obj.y = self.player_obj.y + WALKING_SPEED * dt
+        future_y = self.player_obj.y + WALKING_SPEED * dt
         self.currentFrame = self.downFrames[frameIndex()]
     -- Move player left
     elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-        self.player_obj.x = self.player_obj.x - WALKING_SPEED * dt
+        future_x = self.player_obj.x - WALKING_SPEED * dt
         self.currentFrame = self.leftFrames[frameIndex()]
     -- Move player right
     elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-        self.player_obj.x = self.player_obj.x + WALKING_SPEED * dt
+        future_x = self.player_obj.x + WALKING_SPEED * dt
         self.currentFrame = self.rightFrames[frameIndex()]
+    end
+
+    local actualX, actualY, collisions, len = world:check(self, future_x, future_y)
+
+    if len == 0 then
+        self.player_obj.x = future_x
+        self.player_obj.y = future_y
+        -- update these to use in world update function
+        self.x = self.player_obj.x
+        self.y = self.player_obj.y
+        world:move(self, self.x, self.y)
     end
 end
 
