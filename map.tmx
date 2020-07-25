@@ -6,6 +6,9 @@
  <tileset firstgid="1" source="overworld.tsx"/>
  <tileset firstgid="1441" source="shape.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="30">
+  <properties>
+   <property name="collidable" type="bool" value="false"/>
+  </properties>
   <data encoding="csv">
 41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,
 41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,
@@ -77,6 +80,6 @@
 </data>
  </layer>
  <objectgroup id="4" name="Game Objects">
-  <object id="1" name="Player" x="257.269" y="221.958" width="16" height="16"/>
+  <object id="1" name="Player" x="256" y="224" width="16" height="16"/>
  </objectgroup>
 </map>
