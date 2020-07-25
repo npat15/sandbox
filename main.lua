@@ -2,7 +2,8 @@
 push = require 'push'
 
 -- Include Simple Tiled Implementation into project
-local sti = require "sti"
+sti = require "sti"
+bump = require 'bump'
 
 Class = require 'class'
 
@@ -19,7 +20,6 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
 GAME_WIDTH, GAME_HEIGHT = 480, 480
 
 function love.load()
-    -- Load map file
     push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false})
 
     -- load fonts
@@ -28,18 +28,29 @@ function love.load()
 
     love.window.setTitle("Sandbox")
 
-    -- build state machine
-    gStateMachine = StateMachine {
+    -- build map
+    world = bump.newWorld()
+    map = sti("map.lua", {"bump"})
+    --spriteLayer = map:addCustomLayer("Sprites", 1)
+
+    -- add collidable layer to world (IS THIS NEEDED?)
+    -- set collideLayer to be invisible
+    local collideLayer = map.layers['collidable']
+    collideLayer.visible = false
+
+    -- add collision layer to world
+    map:bump_init(world)
+    --map:bump_draw(world)
+
+    -- CITE
+    love.keyboard.keysPressed = {}
+
+     -- build state machine
+     gStateMachine = StateMachine {
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
     }
     gStateMachine:change('title')
-
-    -- build map
-    map = sti("map.lua")
-
-    -- CITE
-    love.keyboard.keysPressed = {}
 end
 
 function love.update(dt)
