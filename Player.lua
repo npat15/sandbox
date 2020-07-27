@@ -75,13 +75,18 @@ function Player:update(dt)
         end
         return frame
     end
+ 
+    -- rounds float
+    local function round(n)
+        return n % 1 >= 0.5 and math.ceil(n) or math.floor(n)
+    end
 
     local function trig(px, py)
         local x, y = map:convertPixelToTile(px, py)
         local floor = math.floor
 
         for k, trigger in pairs(gTriggers) do
-            if trigger.x == floor(x) and trigger.y == floor(y) then
+            if trigger.x == round(x) and trigger.y == floor(y) then
                 return trigger
             end
         end
@@ -142,7 +147,11 @@ function Player:update(dt)
             self.currentFrame = self.frames[self.direction][1]
             world:move(self, self.x, self.y)
         else
-            res:enter()
+            if self.direction == 3 then
+                res:enter() 
+            else
+                res:exit()
+            end
         end
     end
 end
