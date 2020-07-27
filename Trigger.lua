@@ -1,12 +1,10 @@
-require 'Player'
-
 Trigger = Class{}
 
 function Trigger:init(layers_list, tile_x, tile_y)
     self.x = tile_x
     self.y = tile_y
     self.layers = layers_list
-    layer_placeholder = toDraw
+    self.layer_placeholder = toDraw
 end
 
 function Trigger:enter()
@@ -25,7 +23,7 @@ function Trigger:enter()
 end
 
 function Trigger:exit()
-    toDraw = layer_placeholder
+    toDraw = self.layer_placeholder
  
     --print(map.layers['ShedCol'].properties['collidable'])
     map:bump_removeLayer('ShedCol', world)
