@@ -34,18 +34,20 @@ function love.load()
     map = sti("map.lua", {"bump"})
     --spriteLayer = map:addCustomLayer("Sprites", 1)
 
-    terrain = map.layers["Tile Layer 1"]
-    buildings = map.layers["Buildings"]
+    --terrain = map.layers["Tile Layer 1"]
+    --buildings = map.layers["Buildings"]
 
     -- add collidable layer to world (IS THIS NEEDED?)
     -- set collideLayer to be invisible
-    overworldCollideLayer = map.layers['collidable']
+    --overworldCollideLayer = map.layers['collidable']
+    map.layers['collidable'].properties['collidable'] = true
+    map.layers['test_trig'].properties['collidable'] = true
 
     -- add collision layer to world
     map:bump_init(world)
 
-    toDraw = {terrain, buildings}
-    shed = Trigger({map.layers['Shed'], map.layers['ShedObjects']})
+    toDraw = {"Tile Layer 1", "Buildings"}
+    shed = Trigger({'Shed', 'ShedObjects'})
 
     -- CITE
     love.keyboard.keysPressed = {}

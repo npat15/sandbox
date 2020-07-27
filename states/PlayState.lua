@@ -8,7 +8,6 @@ end
 
 function PlayState:update(dt)
     map:update(dt)
-    --world:update(self.player, math.floor(self.player.x), math.floor(self.player.y), 16, 32)
     player:update(dt)
 end
 

@@ -186,7 +186,29 @@ return {
 		end
 
 		lg.pop()
+	end,
+
+	--[[
+	-- extra function to check for trigger
+	bump_checkTrigger = function(map, player_x, player_y)
+		local collidables = map.bump_collidables
+
+		for i = #collidables, 1, -1 do
+			local obj = collidables[i]
+
+			if obj.layer == layer
+			and (
+				layer.properties.trigger == true
+			) then
+				if obj.x == player_x and obj.y = player_x then
+					return layer.properties.t_name
+				end
+			end
+		end
+
+		return -1
 	end
+	]]--
 }
 
 --- Custom Properties in Tiled are used to tell this plugin what to do.
