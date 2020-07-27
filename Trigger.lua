@@ -8,13 +8,13 @@ Trigger = Class{}
 
 function Trigger:init(layers_list, tile)
     self.layers = layers_list
-    self.layer_placeholder = {}
+    layer_placeholder = toDraw
 end
 
 function Trigger:enter()
-    self.layer_placeholder = toDraw
     toDraw = self.layers
 
+    map:bump_removeLayer('collidable', world)
     map.layers['collidable'].properties['collidable'] = false
     map.layers['ShedCol'].properties['collidable'] = true
 
@@ -23,13 +23,10 @@ function Trigger:enter()
 end
 
 function Trigger:exit()
-
-    map:bump_removeLayer('ShedCol', world)
-
-    toDraw = self.layer_placeholder
-    self.layer_placeholder = {}
+    toDraw = layer_placeholder
  
     --print(map.layers['ShedCol'].properties['collidable'])
+    map:bump_removeLayer('ShedCol', world)
     map.layers['collidable'].properties['collidable'] = true
     map.layers['ShedCol'].properties['collidable'] = false
 

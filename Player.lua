@@ -25,35 +25,6 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     self.x = self.player_obj.x
     self.y = self.player_obj.y
 
-    --[[
-    self.layer.player = {
-        sprite = sprite,
-        x      = player.x,
-        y      = player.y,
-        ox     = sprite:getWidth() / 2,
-        oy     = sprite:getHeight() / 1.35
-    }
-
-    -- Draw player
-    layer.draw = function(self)
-        love.graphics.draw(
-            self.player.sprite,
-            math.floor(self.player.x),
-            math.floor(self.player.y),
-            0,
-            1,
-            1,
-            self.player.ox,
-            self.player.oy
-        )
-
-        -- Temporarily draw a point at our location so we know
-        -- that our sprite is offset properly
-        love.graphics.setPointSize(5)
-        love.graphics.points(math.floor(self.player.x), math.floor(self.player.y))
-    end
-    --]]
-
     -- start timer
     self.timer = 0
 
@@ -149,13 +120,19 @@ function Player:update(dt)
         self.y = self.player_obj.y
         world:move(self, self.x, self.y)
     else
-        -- if there's a collision, keep player in place
-        self.player_obj.x = actualX
-        self.player_obj.y = actualY
-        self.x = self.player_obj.x
-        self.y = self.player_obj.y
-        self.currentFrame = self.frames[self.direction][1]
-        world:move(self, self.x, self.y)
+        --local trig = map:bump_checkTrigger(future_x, future_y)
+        local trig = -1
+        if trig < 0 then
+            -- keep player in place
+            self.player_obj.x = actualX
+            self.player_obj.y = actualY
+            self.x = self.player_obj.x
+            self.y = self.player_obj.y
+            self.currentFrame = self.frames[self.direction][1]
+            world:move(self, self.x, self.y)
+        else
+            trig:enter()
+        end
     end
 end
 
