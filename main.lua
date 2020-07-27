@@ -63,6 +63,7 @@ end
 
 function love.update(dt)
     -- update game state and reinit keysPressed
+    --print(love.timer.getFPS())
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
 end

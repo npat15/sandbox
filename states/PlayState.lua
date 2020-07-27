@@ -13,14 +13,12 @@ end
 
 function PlayState:render()
     -- make world move around player
-    local tx = math.floor(player.x - love.graphics.getWidth() / 2)
-    local ty = math.floor(player.y - love.graphics.getHeight() / 2)
+    local tx = math.floor(player.x - GAME_WIDTH / 2)
+    local ty = math.floor(player.y - GAME_HEIGHT / 2)
     love.graphics.translate(-tx, -ty)
 
     for k, layer in pairs(toDraw) do
         map:drawTileLayer(layer)
     end
-    
-    -- draw sprite
     player:render()
 end

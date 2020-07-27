@@ -78,22 +78,15 @@ function Player:update(dt)
 
     local function trig(px, py)
         local x, y = map:convertPixelToTile(px, py)
+        local floor = math.floor
 
         for k, trigger in pairs(gTriggers) do
-            if trigger.x == math.floor(x) and trigger.y == math.floor(y) then
+            if trigger.x == floor(x) and trigger.y == floor(y) then
                 return trigger
             end
         end
 
         return {}
-    end
-
-    if love.keyboard.wasPressed('j') then
-        shed:enter()
-    end
-
-    if love.keyboard.wasPressed('o') then
-        shed:exit()
     end
     
     -- Move player up
@@ -131,10 +124,10 @@ function Player:update(dt)
         self.x = self.player_obj.x
         self.y = self.player_obj.y
         world:move(self, self.x, self.y)
-    else
+    else 
         -- look for trigger
-        local res=trig(future_x,future_y)
-        local num=0
+        local res = trig(future_x,future_y)
+        local num = 0
 
         for k, trigger in pairs(res) do
             num = num + 1
