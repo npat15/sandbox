@@ -47,7 +47,8 @@ function love.load()
     map:bump_init(world)
 
     toDraw = {"Tile Layer 1", "Buildings"}
-    shed = Trigger({'Shed', 'ShedObjects'})
+    shed = Trigger({'Shed', 'ShedObjects'}, 8, 8)
+    gTriggers = {shed}
 
     -- CITE
     love.keyboard.keysPressed = {}
