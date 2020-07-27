@@ -8,6 +8,7 @@ bump = require 'bump'
 Class = require 'class'
 
 require 'Player'
+require 'Trigger'
 
 -- import states
 require 'StateMachine'
@@ -33,14 +34,18 @@ function love.load()
     map = sti("map.lua", {"bump"})
     --spriteLayer = map:addCustomLayer("Sprites", 1)
 
+    terrain = map.layers["Tile Layer 1"]
+    buildings = map.layers["Buildings"]
+
     -- add collidable layer to world (IS THIS NEEDED?)
     -- set collideLayer to be invisible
-    local collideLayer = map.layers['collidable']
-    collideLayer.visible = false
+    overworldCollideLayer = map.layers['collidable']
 
     -- add collision layer to world
     map:bump_init(world)
-    --map:bump_draw(world)
+
+    toDraw = {terrain, buildings}
+    shed = Trigger({map.layers['Shed'], map.layers['ShedObjects']})
 
     -- CITE
     love.keyboard.keysPressed = {}
@@ -64,6 +69,7 @@ function love.draw()
 
     -- render game state
     gStateMachine:render()
+    map:bump_draw(world)
 
     push:finish()
 end
