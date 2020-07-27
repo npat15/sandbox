@@ -65,7 +65,7 @@ function Player:update(dt)
     future_y = self.player_obj.y
 
     -- pick current frame base on elapsed time
-    function frameIndex()
+    local function frameIndex()
         -- should this be local?
         -- could we use modulus instead?
         frame = math.ceil(self.timer / ANIMATION_SPEED)
@@ -74,6 +74,18 @@ function Player:update(dt)
             frame = 1
         end
         return frame
+    end
+
+    local function trig(px, py)
+        local x, y = map:convertPixelToTile(px, py)
+
+        for k, trigger in pairs(gTriggers) do
+            if trigger.x == math.floor(x) and trigger.y == math.floor(y) then
+                return trigger
+            end
+        end
+
+        return {}
     end
 
     if love.keyboard.wasPressed('j') then
@@ -120,9 +132,15 @@ function Player:update(dt)
         self.y = self.player_obj.y
         world:move(self, self.x, self.y)
     else
-        --local trig = map:bump_checkTrigger(future_x, future_y)
-        local trig = -1
-        if trig < 0 then
+        -- look for trigger
+        local res=trig(future_x,future_y)
+        local num=0
+
+        for k, trigger in pairs(res) do
+            num = num + 1
+        end
+
+        if num == 0 then
             -- keep player in place
             self.player_obj.x = actualX
             self.player_obj.y = actualY
@@ -131,7 +149,7 @@ function Player:update(dt)
             self.currentFrame = self.frames[self.direction][1]
             world:move(self, self.x, self.y)
         else
-            trig:enter()
+            res:enter()
         end
     end
 end

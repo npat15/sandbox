@@ -12,7 +12,11 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-    --map:draw()
+    -- make world move around player
+    local tx = math.floor(player.x - love.graphics.getWidth() / 2)
+    local ty = math.floor(player.y - love.graphics.getHeight() / 2)
+    love.graphics.translate(-tx, -ty)
+
     for k, layer in pairs(toDraw) do
         map:drawTileLayer(layer)
     end
