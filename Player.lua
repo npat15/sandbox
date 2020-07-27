@@ -22,8 +22,6 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
     end
 
     self.player_obj = player_obj
-    --self.player_obj.x = math.floor(self.player_obj.x)
-    --self.player_obj.y = math.floor(self.player_obj.y)
     self.x = self.player_obj.x
     self.y = self.player_obj.y
 
@@ -104,8 +102,15 @@ function Player:update(dt)
             self.timer = 0
             frame = 1
         end
-
         return frame
+    end
+
+    if love.keyboard.wasPressed('j') then
+        shed:enter()
+    end
+
+    if love.keyboard.wasPressed('o') then
+        shed:exit()
     end
     
     -- Move player up
@@ -126,12 +131,14 @@ function Player:update(dt)
         future_x = self.player_obj.x + WALKING_SPEED * dt
     end
 
+    -- determine animation 
     if future_x == self.player_obj.x and future_y == self.player_obj.y then
         self.currentFrame = self.frames[self.direction][1]
     else
         self.currentFrame = self.frames[self.direction][frameIndex()]
     end
 
+    -- look for collision 
     local actualX, actualY, collisions, len = world:check(self, future_x, future_y)
 
     if len == 0 then

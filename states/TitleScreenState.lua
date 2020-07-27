@@ -8,7 +8,11 @@ end
 
 function TitleScreenState:render()
 
-    map:draw()
+    --map:draw()
+
+    for k, layer in pairs(toDraw) do
+        map:drawTileLayer(layer)
+    end
 
     -- set font
     love.graphics.setFont(titleFont)
