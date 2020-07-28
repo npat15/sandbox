@@ -8,8 +8,8 @@ return {
   height = 60,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 22,
-  nextobjectid = 3,
+  nextlayerid = 23,
+  nextobjectid = 4,
   properties = {},
   tilesets = {
     {
@@ -76,7 +76,7 @@ return {
       height = 60,
       id = 1,
       name = "Tile Layer 1",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -308,7 +308,7 @@ return {
       draworder = "topdown",
       id = 4,
       name = "Game Objects",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -339,6 +339,19 @@ return {
           rotation = 0,
           visible = false,
           properties = {}
+        },
+        {
+          id = 3,
+          name = "NPC",
+          type = "",
+          shape = "rectangle",
+          x = 502.768,
+          y = 374.133,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -350,7 +363,7 @@ return {
       height = 60,
       id = 18,
       name = "test_trig",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -585,7 +598,7 @@ return {
       height = 60,
       id = 21,
       name = "ShedObjects",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,

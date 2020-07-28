@@ -8,6 +8,7 @@ bump = require 'bump'
 Class = require 'class'
 
 require 'Player'
+require 'NPC'
 require 'Trigger'
 
 -- import states
