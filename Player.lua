@@ -86,7 +86,7 @@ function Player:update(dt)
         local floor = math.floor
 
         for k, trigger in pairs(gTriggers) do
-            if trigger.x == round(x) and trigger.y == floor(y) then
+            if (trigger.x0 == round(x) and trigger.y0 == floor(y)) or (trigger.x1 == round(x) and trigger.y1 == floor(y + 2)) then
                 return trigger
             end
         end
@@ -131,7 +131,7 @@ function Player:update(dt)
         world:move(self, self.x, self.y)
     else 
         -- look for trigger
-        local res = trig(future_x,future_y)
+        local res = trig(future_x, future_y)
         local num = 0
 
         for k, trigger in pairs(res) do

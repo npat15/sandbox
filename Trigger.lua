@@ -1,8 +1,11 @@
 Trigger = Class{}
 
-function Trigger:init(layers_list, tile_x, tile_y)
-    self.x = tile_x
-    self.y = tile_y
+function Trigger:init(layers_list, tile_x0, tile_y0, tile_x1, tile_y1)
+    self.x0 = tile_x0
+    self.y0 = tile_y0
+    self.x1 = tile_x1
+    self.y1 = tile_y1
+
     self.layers = layers_list
     self.layer_placeholder = {}
 
@@ -14,30 +17,18 @@ end
 
 function Trigger:enter()
     toDraw = self.layers
-
-    map:bump_removeLayer('collidable', world)
-    map:bump_removeLayer('test_trig', world)
-    map.layers['collidable'].properties['collidable'] = false
-    map.layers['test_trig'].properties['collidable'] = false
-    map.layers['ShedCol'].properties['collidable'] = true
-
-    -- commit collidable layers
-    map:bump_init(world)
-
-    player.player_obj.y = player.player_obj.y - 4
+    
+    local px1, py1 = map:convertTileToPixel(self.x1, self.y1 - 2)
+    world:update(player, px1, py1)
+    player.player_obj.x = px1
+    player.player_obj.y = py1
 end
 
 function Trigger:exit()
-    player.player_obj.y = player.player_obj.y + 4
-
     toDraw = self.layer_placeholder
- 
-    map:bump_removeLayer('ShedCol', world)
-    map:bump_removeLayer('ShedCol')
-    map.layers['collidable'].properties['collidable'] = true
-    map.layers['test_trig'].properties['collidable'] = true
-    map.layers['ShedCol'].properties['collidable'] = false
 
-    -- commit collidable layers
-    map:bump_init(world)
+    local px0, py0 = map:convertTileToPixel(self.x0, self.y0)
+    world:update(player, px0, py0) 
+    player.player_obj.x = px0
+    player.player_obj.y = py0 + 16
 end
