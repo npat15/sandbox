@@ -7,8 +7,18 @@ function TitleScreenState:update(dt)
 end
 
 function TitleScreenState:render()
+    -- wastes time 
+    local player_obj 
+    for k, object in pairs(map.objects) do
+        if object.name == 'Player' then
+            player_obj = object
+            break
+        end
+    end
 
-    --map:draw()
+    local tx = math.floor(player_obj.x - GAME_WIDTH / 2)
+    local ty = math.floor(player_obj.y - GAME_HEIGHT / 2)
+    love.graphics.translate(-tx, -ty)
 
     for k, layer in pairs(toDraw) do
         map:drawTileLayer(layer)
@@ -18,6 +28,6 @@ function TitleScreenState:render()
     love.graphics.setFont(titleFont)
 
     -- print to screen
-    love.graphics.printf('Sandbox', 0, 64, GAME_WIDTH, 'center')    
-    love.graphics.printf('Press Enter', 0, 200, GAME_WIDTH, 'center')
+    love.graphics.printf('Sandbox', 260, 320, GAME_WIDTH, 'center')    
+    love.graphics.printf('Press Enter', 260, 420, GAME_WIDTH, 'center')
 end

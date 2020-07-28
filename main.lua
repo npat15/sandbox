@@ -47,7 +47,7 @@ function love.load()
     map:bump_init(world)
 
     toDraw = {"Tile Layer 1", "Buildings"}
-    shed = Trigger({'Shed', 'ShedObjects'}, 8, 8)
+    shed = Trigger({'Shed', 'ShedObjects'}, 23, 23, 9, 57)
     gTriggers = {shed}
 
     -- CITE
@@ -63,7 +63,8 @@ end
 
 function love.update(dt)
     -- update game state and reinit keysPressed
-    --print(love.timer.getFPS())
+    fps = love.timer.getFPS()
+    --print(fps)
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
 end
@@ -73,7 +74,7 @@ function love.draw()
 
     -- render game state
     gStateMachine:render()
-    map:bump_draw(world)
+    --map:bump_draw(world)
 
     push:finish()
 end
