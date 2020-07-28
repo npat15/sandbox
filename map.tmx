@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="3">
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="4">
  <editorsettings>
   <export target="map.lua" format="lua"/>
  </editorsettings>
@@ -208,6 +208,7 @@
   <object id="2" x="493.906" y="524.173" visible="0">
    <point/>
   </object>
+  <object id="3" name="NPC" x="502.768" y="374.133"/>
  </objectgroup>
  <layer id="18" name="test_trig" width="60" height="60" visible="0">
   <properties>

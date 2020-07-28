@@ -34,11 +34,11 @@ function Player:init(name, U0, V0, U1, V1, charSheet)
 
     -- load animation frames
     -- hardcoded frames for now
-    FRAME_WIDTH = 16
-    FRAME_HEIGHT = 32
+    local FRAME_WIDTH = 16
+    local FRAME_HEIGHT = 32
     
-    SHEET_WIDTH = self.charSheet:getWidth()
-    SHEET_HEIGHT = self.charSheet:getHeight()
+    local SHEET_WIDTH = self.charSheet:getWidth()
+    local SHEET_HEIGHT = self.charSheet:getHeight()
 
     function loadFrames(start_y)
         frameTable = {}
@@ -66,7 +66,6 @@ function Player:update(dt)
 
     -- pick current frame base on elapsed time
     local function frameIndex()
-        -- should this be local?
         -- could we use modulus instead?
         frame = math.ceil(self.timer / ANIMATION_SPEED)
         if frame > 4 then
