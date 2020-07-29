@@ -3,6 +3,7 @@ Character = Class{}
 local types = {'player', 'npc'}
 local WALK_TIME = 0.25
 local WALKING_SPEED = 40
+local JOG_SPEED = 65
 local ANIMATION_SPEED = 0.1
 
 function Character:init(name, type, U0, V0, U1, V1, charSheet, moves) 
@@ -121,22 +122,29 @@ function Character:update(dt)
 
     if self.moves then
         if self.type == 'player' then
+            local speed = WALKING_SPEED
+
+            -- set speed
+            if love.keyboard.isDown("j") then
+                speed = JOG_SPEED
+            end
+
             -- Move player up
             if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
                 self.direction = 3
-                future_y = self.object.y - WALKING_SPEED * dt
+                future_y = self.object.y - speed * dt
             -- Move player down
             elseif love.keyboard.isDown("s") or love.keyboard.isDown("down") then
                 self.direction = 1
-                future_y = self.object.y + WALKING_SPEED * dt
+                future_y = self.object.y + speed * dt
             -- Move player left
             elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then
                 self.direction = 4
-                future_x = self.object.x - WALKING_SPEED * dt
+                future_x = self.object.x - speed * dt
             -- Move player right
             elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
                 self.direction = 2
-                future_x = self.object.x + WALKING_SPEED * dt
+                future_x = self.object.x + speed * dt
             end
 
         elseif self.type == 'npc' then
