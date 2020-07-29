@@ -20,8 +20,8 @@ function Trigger:enter()
     
     local px1, py1 = map:convertTileToPixel(self.x1, self.y1 - 2)
     world:update(player, px1, py1)
-    player.player_obj.x = px1
-    player.player_obj.y = py1
+    player.object.x = px1
+    player.object.y = py1
 end
 
 function Trigger:exit()
@@ -29,6 +29,6 @@ function Trigger:exit()
 
     local px0, py0 = map:convertTileToPixel(self.x0, self.y0)
     world:update(player, px0, py0) 
-    player.player_obj.x = px0
-    player.player_obj.y = py0 + 16
+    player.object.x = px0
+    player.object.y = py0 + 16
 end
