@@ -2,8 +2,8 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     -- create player and add it to world
-    player = Player('Player', 0, 0, 16, 32, "tiles/gfx/character.png")
-    npc = NPC('NPC', 0, 0, 16, 32, "tiles/gfx/NPC_test.png")
+    player = Character('Player', 'player', 0, 0, 16, 32, "tiles/gfx/character.png", true)
+    npc = Character('NPC', 'npc',0, 0, 16, 32, "tiles/gfx/NPC_test.png", true)
 
     world:add(player, math.floor(player.x), math.floor(player.y), 16, 32)
     world:add(npc, math.floor(npc.x), math.floor(npc.y), 16, 16)

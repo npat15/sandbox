@@ -6,9 +6,8 @@ sti = require "sti"
 bump = require 'bump'
 
 Class = require 'class'
-
-require 'Player'
-require 'NPC'
+ 
+require 'Character'
 require 'Trigger'
 
 -- import states
