@@ -6,7 +6,7 @@ local WALKING_SPEED = 40
 local JOG_SPEED = 65
 local ANIMATION_SPEED = 0.1
 
-function Character:init(name, type, U0, V0, U1, V1, charSheet, moves) 
+function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file) 
     -- early parameters
     self.name = name
     self.type = type
@@ -15,6 +15,14 @@ function Character:init(name, type, U0, V0, U1, V1, charSheet, moves)
     self.U1 = U1
     self.V1 = V1
     self.direction = 1
+
+    -- start npc sparratic direction
+    if self.type == 'npc' then
+        self.direction = math.random(1, 4)
+    end
+
+    self.offset = self.direction
+
     self.moves = moves
     self.timer = 0
     self.frameTimer = 0
@@ -28,6 +36,8 @@ function Character:init(name, type, U0, V0, U1, V1, charSheet, moves)
     end
 
     self.offset = offset
+
+    local map = sti(map_file)
 
     -- locate within map 
     local object
@@ -98,10 +108,10 @@ function Character:update(dt)
     end
 
     local function trig(px, py)
-        local x, y = map:convertPixelToTile(px, py)
+        local x, y = gMap:convertPixelToTile(px, py)
         local floor = math.floor
 
-        for k, trigger in pairs(gTriggers) do
+        for k, trigger in pairs(map_triggers) do
             if (trigger.x0 == round(x) and trigger.y0 == floor(y)) or (trigger.x1 == round(x) and trigger.y1 == floor(y + 2)) then
                 return trigger
             end
@@ -149,8 +159,8 @@ function Character:update(dt)
 
         elseif self.type == 'npc' then
 
-            -- some movemt every 3 secs
-            if self.timer >= 3 then
+            -- some movemt every few secs
+            if self.timer >= math.random(2, 5) then
                 self.direction = math.random(4)
                 self.timer = 0
             end

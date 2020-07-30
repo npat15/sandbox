@@ -10,6 +10,9 @@ Class = require 'class'
 require 'Character'
 require 'Trigger'
 
+map_list = require 'maps'
+g_map_index = 1
+
 -- import states
 require 'StateMachine'
 require 'states/BaseState'
@@ -20,6 +23,22 @@ require 'states/TitleScreenState'
 WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
 GAME_WIDTH, GAME_HEIGHT = 480, 480
 
+function make_map(index)
+    map_data = map_list[index]
+    map_filename = map_data['filename']
+    map_toDraw = map_data['toDraw']
+    map_player = map_data['player']
+    map_npcs = map_data['npcs']
+    map_triggers = map_data['triggers']
+
+    -- build map
+    world = bump.newWorld()
+    gMap = sti(map_filename, {"bump"})
+
+    -- add collision layer to world
+    gMap:bump_init(world)
+end
+
 function love.load()
     push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false})
 
@@ -29,26 +48,8 @@ function love.load()
 
     love.window.setTitle("Sandbox")
 
-    -- build map
-    world = bump.newWorld()
-    map = sti("map.lua", {"bump"})
-    --spriteLayer = map:addCustomLayer("Sprites", 1)
-
-    --terrain = map.layers["Tile Layer 1"]
-    --buildings = map.layers["Buildings"]
-
-    -- add collidable layer to world (IS THIS NEEDED?)
-    -- set collideLayer to be invisible
-    --overworldCollideLayer = map.layers['collidable']
-    map.layers['collidable'].properties['collidable'] = true
-    map.layers['test_trig'].properties['collidable'] = true
-
-    -- add collision layer to world
-    map:bump_init(world)
-
-    toDraw = {"Tile Layer 1", "Buildings"}
-    shed = Trigger({'Shed', 'ShedObjects'}, 23, 23, 9, 57)
-    gTriggers = {shed}
+    -- set up map
+    make_map(g_map_index)
 
     -- CITE
     love.keyboard.keysPressed = {}
