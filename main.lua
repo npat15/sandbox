@@ -12,12 +12,15 @@ require 'Trigger'
 
 map_list = require 'maps'
 g_map_index = 1
+g_talking_npc = nil
+g_new_game = true
 
 -- import states
 require 'StateMachine'
 require 'states/BaseState'
 require 'states/PlayState'
 require 'states/TitleScreenState'
+require 'states/DialogueState'
 
 -- push parameters
 WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
@@ -39,6 +42,15 @@ function make_map(index)
     gMap:bump_init(world)
 end
 
+function get_length(table)
+    local num = 0
+    for k, elem in pairs(table) do
+        num = num + 1
+    end
+
+    return num
+end
+
 function love.load()
     push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false})
 
@@ -58,6 +70,7 @@ function love.load()
      gStateMachine = StateMachine {
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
+        ['dialogue'] = function() return DialogueState() end,
     }
     gStateMachine:change('title')
 end
