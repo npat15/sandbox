@@ -9,7 +9,7 @@ end
 function TitleScreenState:render()
     -- wastes time 
     local player_obj 
-    for k, object in pairs(map.objects) do
+    for k, object in pairs(gMap.objects) do
         if object.name == 'Player' then
             player_obj = object
             break
@@ -20,8 +20,8 @@ function TitleScreenState:render()
     local ty = math.floor(player_obj.y - GAME_HEIGHT / 2)
     love.graphics.translate(-tx, -ty)
 
-    for k, layer in pairs(toDraw) do
-        map:drawTileLayer(layer)
+    for k, layer in pairs(map_toDraw) do
+        gMap:drawTileLayer(layer)
     end
 
     -- set font

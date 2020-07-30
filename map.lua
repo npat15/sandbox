@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 23,
-  nextobjectid = 4,
+  nextobjectid = 5,
   properties = {},
   tilesets = {
     {
@@ -347,6 +347,19 @@ return {
           shape = "rectangle",
           x = 502.768,
           y = 374.133,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 4,
+          name = "NPC1",
+          type = "",
+          shape = "rectangle",
+          x = 406.082,
+          y = 470.82,
           width = 0,
           height = 0,
           rotation = 0,
