@@ -21,8 +21,6 @@ function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file)
         self.direction = math.random(1, 4)
     end
 
-    self.offset = self.direction
-
     self.moves = moves
     self.timer = 0
     self.frameTimer = 0
