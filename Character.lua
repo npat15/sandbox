@@ -6,7 +6,7 @@ local WALKING_SPEED = 40
 local JOG_SPEED = 65
 local ANIMATION_SPEED = 0.1
 
-function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file) 
+function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file, dialogueTree) 
     -- early parameters
     self.name = name
     self.type = type
@@ -14,7 +14,8 @@ function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file)
     self.V0 = V0
     self.U1 = U1
     self.V1 = V1
-    self.direction = 1
+    self.direction = 1 
+    self.dialogueTree = dialogueTree
 
     -- start npc sparratic direction
     if self.type == 'npc' then
@@ -213,11 +214,7 @@ function Character:update(dt)
             if self.type == 'player' then
                 -- look for trigger
                 local res = trig(future_x, future_y)
-                local num = 0
-
-                for k, trigger in pairs(res) do
-                    num = num + 1
-                end
+                local num = get_length(res)
 
                 if num > 0 then
                     if self.direction == 3 then
@@ -226,24 +223,23 @@ function Character:update(dt)
                         res:exit()
                     end 
                 else
-                    -- look for npc to interact with
-                    local res = find_npc(future_x, future_y)
-
-                    local num = 0
-                    for k, npc in pairs(res) do
-                        num = num + 1
-                    end
-
-                    if num > 0 then
-                        print('true')
-                    end
-
                     self.object.x = actualX
                     self.object.y = actualY
                     self.x = self.object.x
                     self.y = self.object.y
                     self.currentFrame = self.frames[self.direction][1]
-                    world:move(self, self.x, self.y)             
+                    world:move(self, self.x, self.y) 
+                    
+                    -- look for npc to interact with
+                    local res = find_npc(future_x, future_y)
+                    local num = get_length(res)
+
+                    if num > 0 then
+                        if love.keyboard.wasPressed('k') then
+                            g_talking_npc = res
+                            gStateMachine:change('dialogue')
+                        end
+                    end
                 end
             else
                 -- keep in place

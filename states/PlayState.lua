@@ -1,12 +1,16 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
-    -- create player and add it to world
-    player = map_player
-    world:add(player, math.floor(player.x), math.floor(player.y), 16, 32)
+    if g_new_game then
+        -- create player and add it to world    
+        player = map_player
+        world:add(player, math.floor(player.x), math.floor(player.y), 16, 32)
 
-    for k, npc in pairs(map_npcs) do
-        world:add(npc, math.floor(npc.x), math.floor(npc.y), 16, 16)
+        for k, npc in pairs(map_npcs) do
+            world:add(npc, math.floor(npc.x), math.floor(npc.y), 16, 16)
+        end
+
+        g_new_game = false
     end
 end
 
