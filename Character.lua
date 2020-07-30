@@ -123,12 +123,11 @@ function Character:update(dt)
     local function find_npc(px, py)
         local x, y = gMap:convertPixelToTile(px, py)
         local floor = math.floor
+        local abs = math.abs
 
         for k, npc in pairs(map_npcs) do
             local nx, ny = gMap:convertPixelToTile(npc.x, npc.y)
-
-            -- TODO make less strict
-            if (round(nx) == round(x) and floor(ny) == floor(y)) or (round(nx) == round(x) and floor(ny) == floor(y + 2)) then
+            if (abs(round(nx) - round(x)) <= 1) and (abs(floor(ny) - floor(y)) <=  2) then
                 return npc
             end
         end
@@ -227,6 +226,7 @@ function Character:update(dt)
                         res:exit()
                     end 
                 else
+                    -- look for npc to interact with
                     local res = find_npc(future_x, future_y)
 
                     local num = 0
