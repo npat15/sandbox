@@ -105,6 +105,7 @@ function Character:update(dt)
         return n % 1 >= 0.5 and math.ceil(n) or math.floor(n)
     end
 
+    -- passes trigger
     local function trig(px, py)
         local x, y = gMap:convertPixelToTile(px, py)
         local floor = math.floor
@@ -112,6 +113,23 @@ function Character:update(dt)
         for k, trigger in pairs(map_triggers) do
             if (trigger.x0 == round(x) and trigger.y0 == floor(y)) or (trigger.x1 == round(x) and trigger.y1 == floor(y + 2)) then
                 return trigger
+            end
+        end
+
+        return {}
+    end
+
+    -- passes villager
+    local function find_npc(px, py)
+        local x, y = gMap:convertPixelToTile(px, py)
+        local floor = math.floor
+
+        for k, npc in pairs(map_npcs) do
+            local nx, ny = gMap:convertPixelToTile(npc.x, npc.y)
+
+            -- TODO make less strict
+            if (round(nx) == round(x) and floor(ny) == floor(y)) or (round(nx) == round(x) and floor(ny) == floor(y + 2)) then
+                return npc
             end
         end
 
@@ -207,15 +225,25 @@ function Character:update(dt)
                         res:enter() 
                     else
                         res:exit()
-                    end
+                    end 
                 else
-                    -- keep in place
+                    local res = find_npc(future_x, future_y)
+
+                    local num = 0
+                    for k, npc in pairs(res) do
+                        num = num + 1
+                    end
+
+                    if num > 0 then
+                        print('true')
+                    end
+
                     self.object.x = actualX
                     self.object.y = actualY
                     self.x = self.object.x
                     self.y = self.object.y
                     self.currentFrame = self.frames[self.direction][1]
-                    world:move(self, self.x, self.y)
+                    world:move(self, self.x, self.y)             
                 end
             else
                 -- keep in place
