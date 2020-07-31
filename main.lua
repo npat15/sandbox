@@ -56,6 +56,7 @@ function love.load()
 
     -- load fonts
     titleFont = love.graphics.newFont('8-BIT WONDER.TTF', 50)
+    dialogueFont = love.graphics.newFont('FFF_Tusj.ttf', 20)
     love.graphics.setFont(titleFont)
 
     love.window.setTitle("Sandbox")
