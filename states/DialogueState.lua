@@ -18,7 +18,7 @@ function DialogueState:init()
     self.talking:render()
 
     -- set up dialogue UI
-    self.box = love.graphics.newImage('tiles/gfx/Dialog.png')
+    self.box = love.graphics.newImage('maps/tiles/gfx/Dialog.png')
     self.index = 1
     self.dialogueTree = self.talking.dialogueTree
     self.length = get_length(self.dialogueTree)
