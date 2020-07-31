@@ -74,12 +74,27 @@ function love.load()
         ['dialogue'] = function() return DialogueState() end,
     }
     gStateMachine:change('title')
+
+    -- start music
+    sounds = {
+        ['music'] = love.audio.newSource("sounds/411651__evanjones4__film-for-a-music.wav", 'stream'),
+        ['bump'] = love.audio.newSource('sounds/512568__foxboyprower__bump1.wav', 'static'),
+        ['talk'] = love.audio.newSource('sounds/score.wav', 'static'),
+        ['door'] = love.audio.newSource('sounds/485111__joao-janz__glass-door-closing-1-1.wav', 'static'),
+    }
+
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
+
+    sounds['talk']:setVolume(0.1)
+    sounds['door']:setVolume(0.1)
+
 end
 
 function love.update(dt)
     -- update game state and reinit keysPressed
     fps = love.timer.getFPS()
-    --print(fps)
+    print(fps)
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
 end

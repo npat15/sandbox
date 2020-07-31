@@ -22,6 +22,8 @@ function Trigger:enter()
     world:update(player, px1, py1)
     player.object.x = px1
     player.object.y = py1
+
+    sounds['door']:play()
 end
 
 function Trigger:exit()
@@ -31,4 +33,6 @@ function Trigger:exit()
     world:update(player, px0, py0) 
     player.object.x = px0
     player.object.y = py0 + 16
+
+    sounds['door']:play()
 end
