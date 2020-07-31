@@ -7,10 +7,7 @@ function DialogueState:init()
     self.talking.moves = false
 
     -- face player
-    if self.talking.direction == player.direction then
-        self.talking.direction = self.talking.direction - 2
-        self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
-    elseif player.direction > 2 then
+    if player.direction > 2 then
         self.talking.direction = player.direction - 2
         self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
     else
