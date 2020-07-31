@@ -1,44 +1,46 @@
 DialogueState = Class{__includes = BaseState}
 
-local function text_box(message)
-    -- display message to map
-end
-
 function DialogueState:init()
     assert(g_talking_npc, 'no one is talking!')
 
     self.talking = g_talking_npc
     self.talking.moves = false
 
-    if not(self.talking.direction == player.direction) then
-        if player.direction > 2 then
-            self.talking.direction = player.direction - 2
-            self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
-        else
-            self.talking.direction = player.direction + 2
-            self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
-        end
+    -- face player
+    if self.talking.direction == player.direction then
+        self.talking.direction = self.talking.direction - 2
+    elseif player.direction > 2 then
+        self.talking.direction = player.direction - 2
+        self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
+    else
+        self.talking.direction = player.direction + 2
+        self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
     end
 
     self.talking:render()
 
+    -- set up dialogue UI
+    self.box = love.graphics.newImage('tiles/gfx/Dialog.png')
     self.index = 1
     self.dialogueTree = self.talking.dialogueTree
     self.length = get_length(self.dialogueTree)
 
     -- print first line 
-    print(self.dialogueTree[self.index])
-    self.index = self.index + 1
+    message = self.dialogueTree[self.index]
+    message = g_talking_npc.name..': '..message
 end
 
 function DialogueState:update(dt)
     -- execute dialogue or switch out
-    if self.index > self.length then
-        self.talking.moves = true
-        gStateMachine:change('play')
+    if self.index == self.length then
+        if love.keyboard.wasPressed('k') then
+            self.talking.moves = true
+            gStateMachine:change('play')
+        end
     elseif love.keyboard.wasPressed('k') then
-        print(self.dialogueTree[self.index])
         self.index = self.index + 1
+        message = self.dialogueTree[self.index]
+        message = g_talking_npc.name..': '..message
     end
     -- move other villagers
     for k, npc in pairs(map_npcs) do
@@ -63,4 +65,9 @@ function DialogueState:render()
     for k, npc in pairs(map_npcs) do
         npc:render()
     end
+ 
+    -- stop hardcode
+    love.graphics.draw(self.box, player.x - GAME_WIDTH / 2 + 40, player.y + GAME_HEIGHT / 2 - 150)
+    love.graphics.setFont(dialogueFont)
+    love.graphics.printf(message, player.x - GAME_WIDTH / 2 + 60, player.y + GAME_HEIGHT / 2 - 140, GAME_WIDTH)
 end
