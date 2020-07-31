@@ -9,6 +9,7 @@ function DialogueState:init()
     -- face player
     if self.talking.direction == player.direction then
         self.talking.direction = self.talking.direction - 2
+        self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
     elseif player.direction > 2 then
         self.talking.direction = player.direction - 2
         self.talking.currentFrame = self.talking.frames[self.talking.direction][1]
@@ -26,6 +27,8 @@ function DialogueState:init()
     self.length = get_length(self.dialogueTree)
 
     -- print first line 
+    sounds['talk']:play()
+
     message = self.dialogueTree[self.index]
     message = g_talking_npc.name..': '..message
 end
@@ -34,14 +37,17 @@ function DialogueState:update(dt)
     -- execute dialogue or switch out
     if self.index == self.length then
         if love.keyboard.wasPressed('k') then
+            sounds['talk']:play()
             self.talking.moves = true
             gStateMachine:change('play')
         end
     elseif love.keyboard.wasPressed('k') then
+        sounds['talk']:play()
         self.index = self.index + 1
         message = self.dialogueTree[self.index]
         message = g_talking_npc.name..': '..message
     end
+
     -- move other villagers
     for k, npc in pairs(map_npcs) do
         npc:update(dt)
@@ -69,5 +75,5 @@ function DialogueState:render()
     -- stop hardcode
     love.graphics.draw(self.box, player.x - GAME_WIDTH / 2 + 40, player.y + GAME_HEIGHT / 2 - 150)
     love.graphics.setFont(dialogueFont)
-    love.graphics.printf(message, player.x - GAME_WIDTH / 2 + 60, player.y + GAME_HEIGHT / 2 - 140, GAME_WIDTH)
+    love.graphics.printf(message, player.x - GAME_WIDTH / 2 + 60, player.y + GAME_HEIGHT / 2 - 140, 350)
 end
