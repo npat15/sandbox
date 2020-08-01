@@ -23,8 +23,8 @@ require 'states/TitleScreenState'
 require 'states/DialogueState'
 
 -- push parameters
-WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
-GAME_WIDTH, GAME_HEIGHT = 480, 480
+WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
+GAME_WIDTH, GAME_HEIGHT = 480/0.56, 480
 
 function make_map(index)
     map_data = map_list[index]
@@ -44,7 +44,7 @@ end
 
 function get_length(table)
     local num = 0
-    for k, elem in pairs(table) do
+    for k in pairs(table) do
         num = num + 1
     end
 
@@ -52,7 +52,7 @@ function get_length(table)
 end
 
 function love.load()
-    push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = false})
+    push:setupScreen(GAME_WIDTH, GAME_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {fullscreen = true})
 
     -- load fonts
     titleFont = love.graphics.newFont('8-BIT WONDER.TTF', 50)
@@ -77,7 +77,7 @@ function love.load()
 
     -- start music
     sounds = {
-        ['music'] = love.audio.newSource("sounds/411651__evanjones4__film-for-a-music.wav", 'stream'),
+        ['music'] = love.audio.newSource('sounds/411651-evanjones4-film-for-a-mus.mp3', 'stream'),
         ['bump'] = love.audio.newSource('sounds/512568__foxboyprower__bump1.wav', 'static'),
         ['talk'] = love.audio.newSource('sounds/score.wav', 'static'),
         ['door'] = love.audio.newSource('sounds/485111__joao-janz__glass-door-closing-1-1.wav', 'static'),

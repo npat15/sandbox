@@ -28,6 +28,6 @@ function TitleScreenState:render()
     love.graphics.setFont(titleFont)
 
     -- print to screen
-    love.graphics.printf('Sandbox', 260, 320, GAME_WIDTH, 'center')    
-    love.graphics.printf('Press Enter', 260, 420, GAME_WIDTH, 'center')
+    love.graphics.printf('Sandbox', 80, 320, GAME_WIDTH, 'center')    
+    love.graphics.printf('Press Enter', 80, 420, GAME_WIDTH, 'center')
 end
