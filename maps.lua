@@ -32,10 +32,10 @@ return {
                     },
 
         mtriggers = {
-                        MapTrigger(90, 20, 1),
-                        MapTrigger(90, 21, 1),
-                        MapTrigger(90, 22, 1),
-                        MapTrigger(90, 23, 1),
+                        MapTrigger(73, 20, 1),
+                        MapTrigger(73, 21, 1),
+                        MapTrigger(73, 22, 1),
+                        MapTrigger(73, 23, 1),
                     },
     },
 }
