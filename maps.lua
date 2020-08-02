@@ -19,7 +19,7 @@ return {
     },
 
     {   
-        filename = 'maps/spawn.lua',
+        filename = 'maps/spawn1.lua',
         toDraw = {"terrain0", "terrain1"},
         player = Character('Player', 'player', 0, 0, 16, 32, "maps/tiles/gfx/character.png", true, 'maps/spawn.lua', {}),
         npcs =      {
@@ -32,10 +32,16 @@ return {
                     },
 
         mtriggers = {
-                        MapTrigger(73, 20, 1),
-                        MapTrigger(73, 21, 1),
-                        MapTrigger(73, 22, 1),
-                        MapTrigger(73, 23, 1),
+                        MapTrigger(72, 27, 1),
+                        MapTrigger(72, 28, 1),
+                        MapTrigger(72, 29, 1),
+                        MapTrigger(72, 30, 1),
+                        MapTrigger(72, 31, 1),
+                        MapTrigger(72, 32, 1),
+                        MapTrigger(72, 33, 1),
+                        MapTrigger(72, 34, 1),
+                        MapTrigger(72, 35, 1),
+                        MapTrigger(72, 36, 1),
                     },
     },
 }
