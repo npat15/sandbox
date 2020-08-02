@@ -120,6 +120,21 @@ function Character:update(dt)
         return {}
     end
 
+    -- passes map trigger
+    local function mtrig(px, py)
+        local x, y = gMap:convertPixelToTile(px, py)
+        local floor = math.floor
+        local abs = math.abs
+
+        for k, trigger in pairs(map_mtriggers) do
+            if abs(trigger.x0 - round(x)) <= 1 and trigger.y0 == floor(y) then
+                return trigger
+            end
+        end
+
+        return {}
+    end
+
     -- passes villager
     local function find_npc(px, py)
         local x, y = gMap:convertPixelToTile(px, py)
@@ -213,15 +228,23 @@ function Character:update(dt)
         else
             if self.type == 'player' then
                 -- look for trigger
-                local res = trig(future_x, future_y)
-                local num = get_length(res)
+                local tres = trig(future_x, future_y)
+                local tnum = get_length(tres)
 
-                if num > 0 then
+                local mres = mtrig(future_x, future_y)
+                local mnum = get_length(mres)
+
+                if tnum > 0 then
                     if self.direction == 3 then
-                        res:enter() 
+                        tres:enter() 
                     else
-                        res:exit()
+                        tres:exit()
                     end 
+                elseif mnum > 0 then
+                    -- look for map trigger
+                    mres:enter()
+                    g_new_map = true
+                    gStateMachine:change('play')
                 else
                     self.object.x = actualX
                     self.object.y = actualY

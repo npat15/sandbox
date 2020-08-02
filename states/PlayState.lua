@@ -1,7 +1,7 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
-    if g_new_game then
+    if g_new_map then
         -- create player and add it to world    
         player = map_player
         world:add(player, math.floor(player.x), math.floor(player.y), 16, 32)
@@ -10,7 +10,7 @@ function PlayState:init()
             world:add(npc, math.floor(npc.x), math.floor(npc.y), 16, 16)
         end
 
-        g_new_game = false
+        g_new_map = false
     end
 end
 

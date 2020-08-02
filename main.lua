@@ -9,11 +9,12 @@ Class = require 'class'
  
 require 'Character'
 require 'Trigger'
+require 'MapTrigger'
 
 map_list = require 'maps'
-g_map_index = 1
+g_map_index = 2
 g_talking_npc = nil
-g_new_game = true
+g_new_map = true
 
 -- import states
 require 'StateMachine'
@@ -33,6 +34,7 @@ function make_map(index)
     map_player = map_data['player']
     map_npcs = map_data['npcs']
     map_triggers = map_data['triggers']
+    map_mtriggers = map_data['mtriggers']
 
     -- build map
     world = bump.newWorld()
@@ -94,7 +96,7 @@ end
 function love.update(dt)
     -- update game state and reinit keysPressed
     fps = love.timer.getFPS()
-    print(fps)
+    --print(fps)
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
 end
