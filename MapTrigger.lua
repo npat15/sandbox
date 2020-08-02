@@ -7,7 +7,6 @@ function MapTrigger:init(tile_x0, tile_y0, future_index)
 end
 
 function MapTrigger:enter()
-    print('found')
     g_map_index = self.future_index
     make_map(g_map_index)
     sounds['door']:play()
