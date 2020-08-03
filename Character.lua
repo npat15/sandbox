@@ -53,6 +53,7 @@ function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file, 
     self.y = self.object.y
 
     -- set start frame
+    love.graphics.setDefaultFilter("nearest", "nearest")
     self.charSheet = love.graphics.newImage(charSheet)
     self.currentFrame = love.graphics.newQuad(U0, V0, U1, V1, self.charSheet:getWidth(), self.charSheet:getHeight())
 
