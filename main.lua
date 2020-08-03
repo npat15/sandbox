@@ -25,7 +25,7 @@ require 'states/DialogueState'
 
 -- push parameters
 WINDOW_WIDTH, WINDOW_HEIGHT = love.window.getDesktopDimensions()
-GAME_WIDTH, GAME_HEIGHT = 480/0.56, 480
+GAME_WIDTH, GAME_HEIGHT = WINDOW_WIDTH/2, WINDOW_HEIGHT/2
 
 function make_map(index)
     map_data = map_list[index]
