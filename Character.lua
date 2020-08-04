@@ -3,7 +3,7 @@ Character = Class{}
 local types = {'player', 'npc'}
 local WALK_TIME = 0.25
 local WALKING_SPEED = 40
-local JOG_SPEED = 65
+local JOG_SPEED = 80
 local ANIMATION_SPEED = 0.1
 
 function Character:init(name, type, U0, V0, U1, V1, charSheet, moves, map_file, dialogueTree) 
