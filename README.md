@@ -5,7 +5,7 @@ This was a small project to see if I could develop a basic RPG-esque game in und
 This framework includes basic map generation (using the STI library), collisions (using STI and the Bump library), and classes to generate and move a player, trigger basic map-related events (such as entering and exiting a building), and a very simple NPC logic and dialogue.
 
 Requirements:
-* Push
-* STI
-* Bump
+* Push (https://github.com/Ulydev/push)
+* STI (https://github.com/karai17/Simple-Tiled-Implementation)
+* Bump (https://github.com/kikito/bump.lua)
 * StateMachine.lua (https://howtomakeanrpg.com/)
