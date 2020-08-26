@@ -9,3 +9,5 @@ Requirements:
 * STI (https://github.com/karai17/Simple-Tiled-Implementation)
 * Bump (https://github.com/kikito/bump.lua)
 * StateMachine.lua (https://howtomakeanrpg.com/)
+
+Last Updated August 2020
